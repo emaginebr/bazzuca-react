@@ -22,12 +22,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-# Test coverage
-coverage
-
-# Storybook
-storybook-static
-
-# Build
-*.tsbuildinfo
