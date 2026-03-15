@@ -13,6 +13,7 @@ export interface UsePostsReturn {
   createPost: (post: PostInput) => Promise<PostInfo | undefined>;
   updatePost: (post: PostUpdate) => Promise<PostInfo | undefined>;
   publishPost: (postId: number) => Promise<PostInfo | undefined>;
+  uploadMedia: (file: File) => Promise<string | undefined>;
   refreshPosts: () => Promise<void>;
 }
 
@@ -130,6 +131,22 @@ export function usePosts(month?: number, year?: number, autoFetch: boolean = fal
     }
   }, [postApi]);
 
+  const uploadMedia = useCallback(async (file: File): Promise<string | undefined> => {
+    try {
+      setLoading(true);
+      setError(null);
+      const url = await postApi.uploadMedia(file);
+      return url;
+    } catch (err) {
+      const error = err instanceof Error ? err : new Error('Failed to upload media');
+      setError(error);
+      console.error('[usePosts] uploadMedia error:', error);
+      return undefined;
+    } finally {
+      setLoading(false);
+    }
+  }, [postApi]);
+
   const refreshPosts = useCallback(async () => {
     if (lastFetchParams.month && lastFetchParams.year) {
       await fetchPosts(lastFetchParams.month, lastFetchParams.year);
@@ -153,6 +170,7 @@ export function usePosts(month?: number, year?: number, autoFetch: boolean = fal
     createPost,
     updatePost,
     publishPost,
+    uploadMedia,
     refreshPosts,
   };
 }

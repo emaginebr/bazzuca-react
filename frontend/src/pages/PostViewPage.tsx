@@ -8,20 +8,12 @@ export default function PostViewPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const handleEdit = (post: PostInfo) => {
-    navigate(ROUTES.POSTS_EDIT(post.postId));
-  };
-
-  const handlePublish = () => {
-    toast.success('Post published successfully');
-  };
-
-  const handleBack = () => {
-    navigate(ROUTES.POSTS);
-  };
+  const handleEdit = (post: PostInfo) => { navigate(ROUTES.POSTS_EDIT(post.postId)); };
+  const handlePublish = () => { toast.success('Post published'); };
+  const handleBack = () => { navigate(ROUTES.POSTS); };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="max-w-6xl mx-auto animate-fade-up">
       <PostViewer
         postId={id ? Number(id) : undefined}
         onEdit={handleEdit}

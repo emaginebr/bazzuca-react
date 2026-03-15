@@ -14,15 +14,14 @@ export function ProtectedRoute({ children, redirectTo = ROUTES.LOGIN }: Protecte
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      // Store the intended destination for redirect after login
       sessionStorage.setItem('redirectAfterLogin', location.pathname);
     }
   }, [isLoading, isAuthenticated, location]);
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-primary to-brand-secondary animate-pulse shadow-lg shadow-brand-primary/25" />
       </div>
     );
   }

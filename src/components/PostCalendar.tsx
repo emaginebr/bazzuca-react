@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { usePosts } from '../hooks/usePosts';
 import type { PostInfo } from '../types/bazzuca';
-import { PostStatusEnum } from '../types/bazzuca';
+import { PostStatusEnum, SocialNetworkEnum, getSocialNetworkColor } from '../types/bazzuca';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { cn } from '../utils/cn';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay } from 'date-fns';
@@ -120,20 +120,24 @@ export function PostCalendar({
                       {format(day, 'd')}
                     </div>
                     <div className="space-y-1">
-                      {dayPosts.slice(0, 3).map((post) => (
-                        <button
-                          key={post.postId}
-                          onClick={() => onPostClick?.(post)}
-                          className={cn(
-                            'w-full text-left px-1 py-0.5 rounded text-xs truncate',
-                            getStatusColor(post.status),
-                            'text-white hover:opacity-80 transition-opacity'
-                          )}
-                          title={post.title}
-                        >
-                          {post.title}
-                        </button>
-                      ))}
+                      {dayPosts.slice(0, 3).map((post) => {
+                        const networkColor = getSocialNetworkColor(post.socialNetwork?.network ?? (0 as SocialNetworkEnum));
+                        return (
+                          <button
+                            key={post.postId}
+                            onClick={() => onPostClick?.(post)}
+                            className={cn(
+                              'w-full text-left px-1 py-0.5 rounded text-xs truncate',
+                              getStatusColor(post.status),
+                              'text-white hover:opacity-80 transition-opacity'
+                            )}
+                            style={{ borderLeftWidth: '3px', borderLeftColor: networkColor.text, borderLeftStyle: 'solid' }}
+                            title={post.title}
+                          >
+                            {post.title}
+                          </button>
+                        );
+                      })}
                       {dayPosts.length > 3 && (
                         <div className="text-xs text-gray-500 dark:text-gray-400 px-1">
                           +{dayPosts.length - 3} more

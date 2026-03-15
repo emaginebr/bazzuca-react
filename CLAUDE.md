@@ -49,6 +49,10 @@ All public API is re-exported from `src/index.ts`.
 - Setup file: `src/__tests__/setup.ts`
 - Coverage excludes: node_modules, tests, stories, specs
 
-## Example App
+## Frontend
 
-`example-app/` is a full working demo showing BazzucaProvider setup, routing with protected routes, and integration with nauth-react for authentication. It is a separate project with its own package.json.
+`frontend/` is a full working demo showing BazzucaProvider setup, routing with protected routes, and integration with nauth-react for authentication. It is a separate project with its own package.json.
+
+## README Generation
+
+- Do NOT generate system design diagrams (mermaid-chart) for this project when running the readme-generator skill. The project is a client-side component library and the architecture is sufficiently described in text.

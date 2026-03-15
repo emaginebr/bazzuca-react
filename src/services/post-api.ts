@@ -8,6 +8,7 @@ const POST_API_ENDPOINTS = {
   INSERT: '/Post/insert',
   UPDATE: '/Post/update',
   PUBLISH: (postId: number) => `/Post/publish/${postId}`,
+  UPLOAD_MEDIA: '/Post/uploadMedia',
 };
 
 export class PostAPI {
@@ -120,6 +121,30 @@ export class PostAPI {
     
     console.log('[PostAPI] publishPost - Response:', response.data);
     return this.transformPostDate(response.data);
+  }
+
+  /**
+   * Upload media file and return the resulting URL
+   */
+  async uploadMedia(file: File): Promise<string> {
+    console.log('[PostAPI] uploadMedia - Request:', {
+      url: POST_API_ENDPOINTS.UPLOAD_MEDIA,
+      fileName: file.name,
+      fileSize: file.size,
+      fileType: file.type,
+    });
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await this.client.post<string>(
+      POST_API_ENDPOINTS.UPLOAD_MEDIA,
+      formData,
+      { headers: { 'Content-Type': 'multipart/form-data' } }
+    );
+
+    console.log('[PostAPI] uploadMedia - Response:', response.data);
+    return response.data;
   }
 
   /**

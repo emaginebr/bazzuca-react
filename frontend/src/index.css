@@ -1,0 +1,318 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 10%;
+    --card: 0 0% 98%;
+    --card-foreground: 240 10% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 10%;
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 5% 94%;
+    --secondary-foreground: 240 6% 20%;
+    --muted: 240 5% 94%;
+    --muted-foreground: 240 4% 46%;
+    --accent: 190 85% 67%;
+    --accent-foreground: 240 10% 10%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 262 83% 58%;
+    --radius: 0.75rem;
+    --outline: 240 6% 90%;
+    --outline-foreground: 240 10% 10%;
+  }
+
+  .dark {
+    --background: 240 15% 6%;
+    --foreground: 220 15% 90%;
+    --card: 240 12% 9%;
+    --card-foreground: 220 15% 90%;
+    --popover: 240 12% 9%;
+    --popover-foreground: 220 15% 90%;
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 10% 14%;
+    --secondary-foreground: 220 15% 85%;
+    --muted: 240 10% 14%;
+    --muted-foreground: 240 5% 55%;
+    --accent: 190 85% 67%;
+    --accent-foreground: 240 15% 6%;
+    --destructive: 0 63% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 10% 16%;
+    --input: 240 10% 16%;
+    --ring: 262 83% 58%;
+    --outline: 240 10% 20%;
+    --outline-foreground: 220 15% 90%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: 'Outfit', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124, 58, 237, 0.12), transparent),
+      radial-gradient(ellipse 60% 40% at 100% 100%, rgba(219, 39, 119, 0.06), transparent);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  .dark body,
+  .dark #root {
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124, 58, 237, 0.15), transparent),
+      radial-gradient(ellipse 60% 40% at 100% 100%, rgba(219, 39, 119, 0.08), transparent);
+  }
+}
+
+/* Glass panels */
+.glass {
+  background: hsl(var(--card) / 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
+.dark .glass {
+  background: hsl(var(--card) / 0.82);
+  backdrop-filter: blur(8px);
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Noise texture overlay */
+.noise::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.dark .noise::before {
+  opacity: 0.035;
+}
+
+/* Glow effects */
+.glow-violet {
+  box-shadow: 0 0 40px -10px rgba(124, 58, 237, 0.4);
+}
+
+.glow-pink {
+  box-shadow: 0 0 40px -10px rgba(219, 39, 119, 0.4);
+}
+
+.glow-cyan {
+  box-shadow: 0 0 40px -10px rgba(92, 222, 245, 0.4);
+}
+
+/* Gradient text utility */
+.text-gradient {
+  background: linear-gradient(135deg, #7C3AED 0%, #DB2777 50%, #5cdef5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-subtle {
+  background: linear-gradient(135deg, #7C3AED 0%, #DB2777 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animated gradient border */
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.border-gradient {
+  position: relative;
+  border: none !important;
+}
+
+.border-gradient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(var(--angle, 135deg), #7C3AED, #DB2777, #5cdef5);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.border-gradient-animated::before {
+  animation: borderRotate 4s linear infinite;
+}
+
+@keyframes borderRotate {
+  to { --angle: 360deg; }
+}
+
+/* Animations */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease both;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.3s; }
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* Focus visible */
+*:focus-visible {
+  @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+}
+
+/*
+ * Theme overrides — remap hardcoded Tailwind dark: classes from libraries
+ * (bazzuca-react, nauth-react) to the CSS variable system.
+ * This ensures consistent theming regardless of the dark class on <html>.
+ */
+
+/* Backgrounds */
+.dark .dark\:bg-gray-800 { background-color: hsl(var(--card)) !important; }
+.dark .dark\:bg-gray-900 { background-color: hsl(var(--background)) !important; }
+.dark .dark\:bg-gray-700 { background-color: hsl(var(--secondary)) !important; }
+.dark .dark\:hover\:bg-gray-800:hover { background-color: hsl(var(--primary) / 0.06) !important; }
+.dark .dark\:hover\:bg-gray-700:hover { background-color: hsl(var(--primary) / 0.08) !important; }
+.dark .dark\:hover\:bg-gray-600:hover { background-color: hsl(var(--primary) / 0.10) !important; }
+
+/* Text */
+.dark .dark\:text-gray-100 { color: hsl(var(--foreground)) !important; }
+.dark .dark\:text-gray-300 { color: hsl(var(--foreground)) !important; }
+.dark .dark\:text-gray-400 { color: hsl(var(--muted-foreground)) !important; }
+
+/* Borders */
+.dark .dark\:border-gray-700 { border-color: hsl(var(--border)) !important; }
+.dark .dark\:border-gray-600 { border-color: hsl(var(--border)) !important; }
+
+/* Form inputs */
+input:not([type='checkbox']):not([type='radio']),
+textarea,
+select {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--border));
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: hsl(var(--muted-foreground));
+}
+
+/* Labels */
+label {
+  color: hsl(var(--foreground)) !important;
+}
+
+/* Brand-style primary buttons — overrides generic blue from libraries */
+button[type='submit'],
+.bg-blue-500,
+.bg-blue-600,
+.dark .dark\:bg-blue-500,
+.dark .dark\:bg-blue-600 {
+  background: linear-gradient(to right, #7C3AED, #DB2777) !important;
+  color: white !important;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  box-shadow: 0 4px 14px -3px rgba(124, 58, 237, 0.25);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+button[type='submit']:hover,
+.bg-blue-500:hover,
+.bg-blue-600:hover {
+  box-shadow: 0 4px 20px -3px rgba(124, 58, 237, 0.4);
+  transform: scale(1.01);
+}
+
+/* Code / mono text */
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}

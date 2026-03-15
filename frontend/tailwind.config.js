@@ -4,6 +4,7 @@ export default {
   content: [
     './src/**/*.{ts,tsx}',
     './node_modules/nauth-react/dist/**/*.{js,mjs}',
+    './node_modules/bazzuca-react/dist/**/*.{js,mjs}',
   ],
   theme: {
     container: {
@@ -14,6 +15,10 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['Outfit', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -23,7 +28,7 @@ export default {
         brand: {
           primary: '#7C3AED',
           secondary: '#DB2777',
-          accent: '#5cdef5ff',
+          accent: '#5cdef5',
         },
         primary: {
           DEFAULT: 'hsl(var(--primary))',

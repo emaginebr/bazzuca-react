@@ -38,6 +38,7 @@ export function BazzucaProvider({ config, children }: BazzucaProviderProps) {
       timeout: config.timeout || 30000,
       headers: {
         'Content-Type': 'application/json',
+        ...(config.tenantId && { 'X-Tenant-Id': config.tenantId }),
         ...config.headers,
       },
     });
@@ -46,6 +47,7 @@ export function BazzucaProvider({ config, children }: BazzucaProviderProps) {
     client.interceptors.request.use(
       (reqConfig) => {
         setIsLoading(true);
+        console.log(`[Bazzuca] ${reqConfig.method?.toUpperCase()} ${reqConfig.url}`, config.tenantId ? `Tenant: ${config.tenantId}` : '');
         return reqConfig;
       },
       (error) => {

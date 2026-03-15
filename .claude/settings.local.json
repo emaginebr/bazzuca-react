@@ -4,7 +4,10 @@
       "Bash(npm i:*)",
       "Bash(npm run build:*)",
       "Bash(npm install:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(if exist node_modules.vite rmdir /s /q node_modules.vite)",
+      "Bash(xargs grep -l \"upload\\\\|Upload\\\\|file\\\\|File\")"
     ]
   }
 }

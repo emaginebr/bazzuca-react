@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Pencil, Plus, Send, Eye } from 'lucide-react';
 import { usePosts } from '../hooks/usePosts';
 import type { PostInfo } from '../types/bazzuca';
-import { getSocialNetworkName, getPostTypeName, getPostStatusName, PostStatusEnum } from '../types/bazzuca';
+import { getSocialNetworkName, getSocialNetworkColor, getPostTypeName, getPostStatusName, PostStatusEnum } from '../types/bazzuca';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
@@ -127,11 +127,17 @@ export function PostList({
                   <TableCell className="font-medium">{post.title}</TableCell>
                   <TableCell>{post.client?.name || 'N/A'}</TableCell>
                   <TableCell>
-                    {post.socialNetwork && (
-                      <span className="inline-flex items-center px-2 py-1 text-xs rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
-                        {getSocialNetworkName(post.socialNetwork.network)}
-                      </span>
-                    )}
+                    {post.socialNetwork && (() => {
+                      const color = getSocialNetworkColor(post.socialNetwork.network);
+                      return (
+                        <span
+                          className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full"
+                          style={{ backgroundColor: color.bg, color: color.text }}
+                        >
+                          {getSocialNetworkName(post.socialNetwork.network)}
+                        </span>
+                      );
+                    })()}
                   </TableCell>
                   <TableCell>{getPostTypeName(post.postType)}</TableCell>
                   <TableCell>

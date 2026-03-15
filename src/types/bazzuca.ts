@@ -128,6 +128,7 @@ export interface PostListPaged {
 export interface BazzucaConfig {
   apiUrl: string;
   apiClient?: import('axios').AxiosInstance;
+  tenantId?: string;
   timeout?: number;
   headers?: Record<string, string>;
   onError?: (error: Error) => void;
@@ -152,6 +153,21 @@ export function isPostStatusEnum(value: number): value is PostStatusEnum {
 // ============================================================================
 // Utility Functions
 // ============================================================================
+
+export function getSocialNetworkColor(network: SocialNetworkEnum): { bg: string; text: string } {
+  const colors: Record<number, { bg: string; text: string }> = {
+    [SocialNetworkEnum.X]: { bg: '#e7e7e8', text: '#000000' },
+    [SocialNetworkEnum.Instagram]: { bg: '#fce4ec', text: '#C13584' },
+    [SocialNetworkEnum.Facebook]: { bg: '#e3f2fd', text: '#1877F2' },
+    [SocialNetworkEnum.LinkedIn]: { bg: '#e0f0fa', text: '#0077B5' },
+    [SocialNetworkEnum.TikTok]: { bg: '#fce4ec', text: '#ff0050' },
+    [SocialNetworkEnum.YouTube]: { bg: '#fdecea', text: '#FF0000' },
+    [SocialNetworkEnum.WhatsApp]: { bg: '#e8f5e9', text: '#25D366' },
+    [SocialNetworkEnum.SMS]: { bg: '#f3f4f6', text: '#6b7280' },
+    [SocialNetworkEnum.Email]: { bg: '#f3f4f6', text: '#6b7280' },
+  };
+  return colors[network] ?? { bg: '#eff6ff', text: '#2563eb' };
+}
 
 export function getSocialNetworkName(network: SocialNetworkEnum): string {
   const names: Record<SocialNetworkEnum, string> = {

@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Pencil, Trash2, Plus, ExternalLink } from 'lucide-react';
 import { useSocialNetworks } from '../hooks/useSocialNetworks';
 import type { SocialNetworkInfo } from '../types/bazzuca';
-import { getSocialNetworkName } from '../types/bazzuca';
+import { getSocialNetworkName, getSocialNetworkColor } from '../types/bazzuca';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
@@ -16,6 +16,8 @@ export interface SocialNetworkListProps {
   onCreate?: () => void;
   showCreateButton?: boolean;
   className?: string;
+  /** Increment this value to trigger a list refresh from the parent */
+  refreshTrigger?: number;
 }
 
 export function SocialNetworkList({
@@ -25,8 +27,20 @@ export function SocialNetworkList({
   onCreate,
   showCreateButton = true,
   className,
+  refreshTrigger,
 }: SocialNetworkListProps) {
-  const { networks, loading, error, deleteNetwork } = useSocialNetworks(clientId);
+  const { networks, loading, error, deleteNetwork, refreshNetworks } = useSocialNetworks(clientId);
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    if (refreshTrigger !== undefined) {
+      refreshNetworks();
+    }
+  }, [refreshTrigger, refreshNetworks]);
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [networkToDelete, setNetworkToDelete] = useState<number | null>(null);
@@ -110,9 +124,17 @@ export function SocialNetworkList({
               {networks.map((network) => (
                 <TableRow key={network.networkId}>
                   <TableCell className="font-medium">
-                    <span className="inline-flex items-center px-2 py-1 text-xs rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
-                      {getSocialNetworkName(network.network)}
-                    </span>
+                    {(() => {
+                      const color = getSocialNetworkColor(network.network);
+                      return (
+                        <span
+                          className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full"
+                          style={{ backgroundColor: color.bg, color: color.text }}
+                        >
+                          {getSocialNetworkName(network.network)}
+                        </span>
+                      );
+                    })()}
                   </TableCell>
                   <TableCell>{network.user}</TableCell>
                   <TableCell>

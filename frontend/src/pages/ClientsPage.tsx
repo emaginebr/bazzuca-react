@@ -4,6 +4,7 @@ import { ClientList, ClientModal, useClients } from 'bazzuca-react';
 import type { ClientInfo } from 'bazzuca-react';
 import { toast } from 'sonner';
 import { ROUTES } from '../lib/constants';
+import { Users } from 'lucide-react';
 
 export default function ClientsPage() {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ export default function ClientsPage() {
   };
 
   const handleSave = async () => {
-    toast.success(selectedClient ? 'Client updated successfully' : 'Client created successfully');
+    toast.success(selectedClient ? 'Client updated' : 'Client created');
     setIsModalOpen(false);
     setSelectedClient(undefined);
     await refreshClients();
@@ -43,21 +44,28 @@ export default function ClientsPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Clients</h1>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
+    <div className="max-w-6xl mx-auto">
+      <div className="mb-8 animate-fade-up">
+        <div className="flex items-center gap-3 mb-1">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-primary to-violet-600 flex items-center justify-center shadow-lg shadow-brand-primary/20">
+            <Users className="w-4 h-4 text-white" />
+          </div>
+          <h1 className="text-2xl font-bold text-foreground">Clients</h1>
+        </div>
+        <p className="text-sm text-muted-foreground ml-11">
           Manage your social media clients and their networks
         </p>
       </div>
 
-      <ClientList
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        onCreate={handleCreate}
-        onView={handleView}
-        showCreateButton={true}
-      />
+      <div className="animate-fade-up stagger-1">
+        <ClientList
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          onCreate={handleCreate}
+          onView={handleView}
+          showCreateButton={true}
+        />
+      </div>
 
       <ClientModal
         isOpen={isModalOpen}

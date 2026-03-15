@@ -78,6 +78,7 @@ export {
 // Bazzuca Utility Functions
 export {
   getSocialNetworkName,
+  getSocialNetworkColor,
   getPostTypeName,
   getPostStatusName,
   isSocialNetworkEnum,

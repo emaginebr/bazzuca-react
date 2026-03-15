@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Pencil, Trash2, Plus, Eye } from 'lucide-react';
 import { useClients } from '../hooks/useClients';
 import type { ClientInfo } from '../types/bazzuca';
-import { getSocialNetworkName } from '../types/bazzuca';
+import { getSocialNetworkName, getSocialNetworkColor } from '../types/bazzuca';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
@@ -101,14 +101,18 @@ export function ClientList({
                   <TableCell className="font-medium">{client.name}</TableCell>
                   <TableCell>
                     <div className="flex flex-wrap gap-1">
-                      {client.socialNetworks.map((network) => (
-                        <span
-                          key={network}
-                          className="inline-flex items-center px-2 py-1 text-xs rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200"
-                        >
-                          {getSocialNetworkName(network)}
-                        </span>
-                      ))}
+                      {client.socialNetworks.map((network) => {
+                        const color = getSocialNetworkColor(network);
+                        return (
+                          <span
+                            key={network}
+                            className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full"
+                            style={{ backgroundColor: color.bg, color: color.text }}
+                          >
+                            {getSocialNetworkName(network)}
+                          </span>
+                        );
+                      })}
                     </div>
                   </TableCell>
                   <TableCell className="text-right">

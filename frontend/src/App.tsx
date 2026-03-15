@@ -23,6 +23,7 @@ function AppContent() {
 
   const bazzucaConfig = useMemo(() => ({
     apiUrl: import.meta.env.VITE_BAZZUCA_API_URL,
+    tenantId: import.meta.env.VITE_TENANT_ID,
     ...(token && {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -127,10 +128,13 @@ function App() {
       <NAuthProvider
         config={{
           apiUrl: import.meta.env.VITE_API_URL,
+          headers: {
+            'X-Tenant-Id': import.meta.env.VITE_TENANT_ID,
+          },
           enableFingerprinting: true,
           redirectOnUnauthorized: ROUTES.LOGIN,
           onAuthChange: (user) => {
-            console.log('Auth state changed:', user);
+            console.log('Auth state changed:', user, 'Tenant:', import.meta.env.VITE_TENANT_ID);
           },
         }}
       >

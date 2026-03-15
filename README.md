@@ -101,9 +101,8 @@ bazzuca-react/
 │   │   ├── cn.ts                # Classname merge utility
 │   │   └── validators.ts        # CPF, CNPJ, email, phone validators
 │   └── index.ts                 # Public API entry point
-├── example-app/                 # Full working demo application
+├── frontend/                    # Full working demo application
 ├── .github/workflows/           # CI/CD pipelines
-├── docs/                        # Documentation & diagrams
 ├── tailwind.config.js
 ├── vite.config.ts
 ├── vitest.config.ts
@@ -119,18 +118,6 @@ bazzuca-react/
 | **[bazzuca-react](https://github.com/landim32/Bazzuca/tree/main/bazzuca-react)** | NPM Package | React component library (this package) |
 | **Bazzuca Backend API** | REST API | Backend service for social media management |
 | **[nauth-react](https://www.npmjs.com/package/nauth-react)** | NPM Package | Authentication library used in the example app |
-
----
-
-## 🏗️ System Design
-
-The following diagram illustrates the high-level architecture of **bazzuca-react**:
-
-![System Design](docs/system-design.png)
-
-The library follows a **layered architecture**: UI Components consume Custom Hooks, which in turn call API Services (Axios-based). The `BazzucaProvider` context wires everything together and provides dependency injection. Consumer applications wrap their React tree with the provider and use components/hooks directly.
-
-> 📄 **Source:** The editable Mermaid source is available at [`docs/system-design.mmd`](docs/system-design.mmd).
 
 ---
 
@@ -613,9 +600,9 @@ Push to main → Version and Tag → Publish to NPM
 
 ---
 
-## 📱 Example Application
+## 📱 Frontend Application
 
-The `example-app/` directory contains a full working demo showing:
+The `frontend/` directory contains a full working demo showing:
 
 - `BazzucaProvider` setup with configuration
 - Routing with protected routes
@@ -626,7 +613,7 @@ The `example-app/` directory contains a full working demo showing:
 To run the example app:
 
 ```bash
-cd example-app
+cd frontend
 cp .env.example .env
 # Edit .env with your API URLs
 npm install
